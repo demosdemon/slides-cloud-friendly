@@ -1,344 +1,391 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Building a cloud-friendly application</title>
-  <meta name="author" content="Larry Garfield">
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="css/reveal.css">
-  <link rel="stylesheet" href="platform-reveal/platform-theme/assets/css/styles.css" id="theme">
-  <!-- Printing and PDF exports -->
-  <script>
-    var link = document.createElement( 'link' );
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = window.location.search.match( /print-pdf/gi ) ? 'platform-theme/assets/css/print/pdf.css' : 'platform-theme/assets/css/print/paper.css';
-    document.getElementsByTagName( 'head' )[0].appendChild( link );
-  </script>
+  <head>
+    <meta charset="utf-8" />
+    <title>Building a cloud-friendly application</title>
+    <meta name="author" content="Larry Garfield" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"
+    />
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link
+      rel="stylesheet"
+      href="platform-reveal/platform-theme/assets/css/styles.css"
+      id="theme"
+    />
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "platform-theme/assets/css/print/pdf.css"
+        : "platform-theme/assets/css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
 
-  <script src="platform-reveal/classer.js"></script>
+    <script src="platform-reveal/classer.js"></script>
 
-  <!--[if lt IE 9]>
-  <script src="lib/js/html5shiv.js"></script>
-  <![endif]-->
+    <!--[if lt IE 9]> <script src="lib/js/html5shiv.js"></script> <![endif]-->
 
-  <style type="text/css">
+    <style type="text/css">
+      img.graphic {
+      }
 
-    img.graphic {
-    }
+      ul.inline {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        text-align: center;
+      }
 
-    ul.inline {
-      margin: 0;
-      padding: 0;
-      list-style-type: none;
-      text-align: center;
-    }
+      ul.inline li {
+        display: inline;
+      }
 
-    ul.inline li {
-      display: inline;
-    }
-
-    /*overwrites a default style that
+      /*overwrites a default style that
     vertically un-centered slides */
-    .reveal .slides>section,
-    .reveal .slides>section>section {
-      padding: 0;
-    }
+      .reveal .slides > section,
+      .reveal .slides > section > section {
+        padding: 0;
+      }
 
-    .reveal h2 + p.bigtext,
-    .reveal p + p,
-    .reveal h3 + p,
-    .reveal h3 + h3,
-    .reveal p + h3 {
-      margin-top: 1em;
-    }
+      .reveal h2 + p.bigtext,
+      .reveal p + p,
+      .reveal h3 + p,
+      .reveal h3 + h3,
+      .reveal p + h3 {
+        margin-top: 1em;
+      }
 
-    .reveal #final p + p {
-      margin-top: 0;
-    }
+      .reveal #final p + p {
+        margin-top: 0;
+      }
 
-    .struck {
-      text-decoration: line-through;
-    }
+      .struck {
+        text-decoration: line-through;
+      }
 
-    p.bigdeal {
-      font-size: 200%;
-      color: Red;
-      font-style: italic;
-      text-shadow: 3px 3px 10px #990000;
-      display: block;
-    }
+      p.bigdeal {
+        font-size: 200%;
+        color: Red;
+        font-style: italic;
+        text-shadow: 3px 3px 10px #990000;
+        display: block;
+      }
 
-    img.screenshot {
-      border-radius: 5px;
-      width: 900px;
-    }
+      img.screenshot {
+        border-radius: 5px;
+        width: 900px;
+      }
 
-    blockquote em {
-      color: Green;
-      font-weight: bold !important;
-    }
+      blockquote em {
+        color: Green;
+        font-weight: bold !important;
+      }
 
-    .layout-columns {
-      display: flex;
-      justify-content: space-around;
-    }
+      .layout-columns {
+        display: flex;
+        justify-content: space-around;
+      }
 
-    .layout-centerline {
-      align-items: center;
-    }
+      .layout-centerline {
+        align-items: center;
+      }
 
-    .reveal .topspace {
-      margin-top: 1em;
-    }
+      .reveal .topspace {
+        margin-top: 1em;
+      }
+    </style>
+  </head>
+  <!-- Change body class to "dark" if you prefer a dark theme, or "light" if you'd rather have a light theme-->
 
-  </style>
-
-</head>
-<!-- Change body class to "dark" if you prefer a dark theme, or "light" if you'd rather have a light theme-->
-<body class="light">
-<div class="reveal">
-  <div class="logo">
-    <p>Platform.sh</p>
-  </div>
-  <!-- Any section element inside of this container is displayed as a slide -->
-  <div class="slides">
-
-    <section>
-      <h2>Building a cloud-friendly application</h2>
-      <p>
-        <small>Presented by <a href="http://www.garfieldtech.com/">Larry Garfield</a> (<a href="http://twitter.com/Crell">@Crell</a>)</small>
-      </p>
-    </section>
-    <section class="l-2up">
-      <h2><a href="http://twitter.com/Crell">@Crell</a></h2>
-      <div>
-        <img src="assets/larry-olaf-hug.jpg" alt="Larry implements Huggable" style="width: 350px; margin: 0" />
-      </div>
-      <div>
-        <ul style="text-wrap: none">
-          <li>Director of DX, <a href="http://www.platform.sh/">Platform.sh</a></li>
-          <li style="margin-top: 1em;">PHP-FIG Core Committee</li>
-          <li style="margin-top: 1em;"><code>implements Huggable</code></li>
-        </ul>
-      </div>
-    </section>
-    <section>
-      <section data-background="assets/cloud-airplane-bulgaria.jpg">
-        <aside class="notes">
-          <ul>
-            <li>Not those clouds</li>
-            <li>Work at Platform.sh</li>
-            <li>Work with lots of apps, good and bad.</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <img src="assets/cloud-eating-world.jpg" alt="Software is eating the world, and cloud is eating software." data-credit="https://twitter.com/bassamtabbara/status/921784412479545344" />
-        <small>(Source: <a href="https://twitter.com/bassamtabbara/status/921784412479545344">@bassamtabbara</a>)</small>
-        <aside class="notes">
-          <ul>
-            <li>Cloud-based hosting is the big thing</li>
-            <li>What is a cloud, and what's it mean?</li>
-          </ul>
-        </aside>
-      </section>
-    </section>
-    <section>
-      <section>
-        <div class="layout-columns layout-centerline">
-          <div style="font-size: larger;">What is cloud<br />computing?</div>
-          <div class="fragment" style="font-size: larger;">What is<br />The Cloud?</div>
-        </div>
-        <p class="fragment topspace">These are separate questions...</p>
-      </section>
-      <section>
-        <h2>The Cloud&trade;: noun</h2>
-        <p class="bigtext">Someone else's hard drive</p>
-        <aside class="notes">
-          <ul>
-            <li>Marketing term</li>
-            <li>Business model: outsourcing</li>
-            <li>Not going to get into that</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h2>Cloud computing: noun</h2>
-        <p class="bigtext">Abstracting away physical infrastructure</p>
-        <p class="bigtext fragment">Disposable application design</p>
-        <aside class="notes">
-          <ul>
-            <li>Often but not always in The Cloud</li>
-            <li>Logical "systems", not physical boxen</li>
-            <li>Systems are "cattle", so are app instances</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3>What makes an application cloud-friendly?</h3>
-      </section>
-      <section>
-        <h3>They're not rules</h3>
-        <img src="assets/captain-barbados.gif" width="70%" alt="They're more like guidelines..." data-credit="http://www.killerfilm.com/articles-2/read/captain-barbados-confirmed-for-pirates-4-14377" />
-        <h3>They're more like guidelines</h3>
-      </section>
-    </section>
-    <section>
-      <section class="">
-        <!-- Reformat this slide, ugh. -->
-        <h2>Split code from content</h2>
-        <div class="layout-columns topspace">
-          <div class="fragment">
-            <h3>Code</h3>
-            <ul>
-              <li>Provided by developer</li>
-              <li>Carefully tested</li>
-              <li>Lives in version control</li>
-              <li>Read-only runtime</li>
+  <body class="light">
+    <div class="reveal">
+      <div class="logo"><p>Platform.sh</p></div>
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h2>Building a cloud-friendly application</h2>
+          <p>
+            <small
+              >Presented by
+              <a href="http://www.garfieldtech.com/">Larry Garfield</a> (<a
+                href="http://twitter.com/Crell"
+                >@Crell</a
+              >)</small
+            >
+          </p>
+        </section>
+        <section class="l-2up">
+          <h2><a href="http://twitter.com/Crell">@Crell</a></h2>
+          <div>
+            <img
+              src="assets/larry-olaf-hug.jpg"
+              alt="Larry implements Huggable"
+              style="width: 350px; margin: 0"
+            />
+          </div>
+          <div>
+            <ul style="text-wrap: none">
+              <li>
+                Director of DX,
+                <a href="http://www.platform.sh/">Platform.sh</a>
+              </li>
+              <li style="margin-top: 1em;">PHP-FIG Core Committee</li>
+              <li style="margin-top: 1em;"><code>implements Huggable</code></li>
             </ul>
           </div>
-          <div class="fragment">
-            <h3>Content</h3>
+        </section>
+        <section>
+          <section data-background="assets/cloud-airplane-bulgaria.jpg">
+            <aside class="notes">
+              <ul>
+                <li>Not those clouds</li>
+                <li>Work at Platform.sh</li>
+                <li>Work with lots of apps, good and bad.</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <img
+              src="assets/cloud-eating-world.jpg"
+              alt="Software is eating the world, and cloud is eating software."
+              data-credit="https://twitter.com/bassamtabbara/status/921784412479545344"
+            />
+            <small
+              >(Source:
+              <a
+                href="https://twitter.com/bassamtabbara/status/921784412479545344"
+                >@bassamtabbara</a
+              >)</small
+            >
+            <aside class="notes">
+              <ul>
+                <li>Cloud-based hosting is the big thing</li>
+                <li>What is a cloud, and what's it mean?</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <div class="layout-columns layout-centerline">
+              <div style="font-size: larger;">
+                What is cloud<br />computing?
+              </div>
+              <div class="fragment" style="font-size: larger;">
+                What is<br />The Cloud?
+              </div>
+            </div>
+            <p class="fragment topspace">These are separate questions...</p>
+          </section>
+          <section>
+            <h2>The Cloud&trade;: noun</h2>
+            <p class="bigtext">Someone else's hard drive</p>
+            <aside class="notes">
+              <ul>
+                <li>Marketing term</li>
+                <li>Business model: outsourcing</li>
+                <li>Not going to get into that</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h2>Cloud computing: noun</h2>
+            <p class="bigtext">Abstracting away physical infrastructure</p>
+            <p class="bigtext fragment">Disposable application design</p>
+            <aside class="notes">
+              <ul>
+                <li>Often but not always in The Cloud</li>
+                <li>Logical "systems", not physical boxen</li>
+                <li>Systems are "cattle", so are app instances</li>
+              </ul>
+            </aside>
+          </section>
+          <section><h3>What makes an application cloud-friendly?</h3></section>
+          <section>
+            <h3>They're not rules</h3>
+            <img
+              src="assets/captain-barbados.gif"
+              width="70%"
+              alt="They're more like guidelines..."
+              data-credit="http://www.killerfilm.com/articles-2/read/captain-barbados-confirmed-for-pirates-4-14377"
+            />
+            <h3>They're more like guidelines</h3>
+          </section>
+        </section>
+        <section>
+          <section class="">
+            <!-- Reformat this slide, ugh. -->
+            <h2>Split code from content</h2>
+            <div class="layout-columns topspace">
+              <div class="fragment">
+                <h3>Code</h3>
+                <ul>
+                  <li>Provided by developer</li>
+                  <li>Carefully tested</li>
+                  <li>Lives in version control</li>
+                  <li>Read-only runtime</li>
+                </ul>
+              </div>
+              <div class="fragment">
+                <h3>Content</h3>
+                <ul>
+                  <li>Provided by users</li>
+                  <li>Frequently ad hoc</li>
+                  <li>Lives in DB or filesystem</li>
+                  <li>Writeable runtime</li>
+                </ul>
+              </div>
+            </div>
+            <div class="fragment topspace">Don't mix the filesystems</div>
+            <aside class="notes">
+              <ul>
+                <li>RO FS for security, audit, don't edit prod</li>
+                <li>Split by directory</li>
+                <li>S3 an option, not requirement</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <p class="bigtext">
+              Your application is disposable. Your data is not.
+            </p>
+          </section>
+          <section>
+            <h3>Data flow</h3>
+            <img src="assets/workflow.svg" />
+            <!-- pic of code flowing up, data flowing down -->
+            <p class="fragment">You don't get an in-between option</p>
+          </section>
+          <section>
+            <h3>Take-away</h3>
+            <p>Cleanly separate "Dev provided" and "user provided" files</p>
+          </section>
+        </section>
+        <section>
+          <section><h3>What is configuration?</h3></section>
+          <section>
+            <p>Does config come from the developer or the user?</p>
+            <p class="fragment">Git or Database?</p>
+            <aside class="notes">
+              <ul>
+                <li>Not usually an issue for bespoke apps</li>
+                <li>CMSes, often</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h2>Drupal Config Management</h2>
+            <div class="layout-columns layout-centerline topspace">
+              <img
+                src="assets/drupal-8-logo.png"
+                alt="Drupal 8"
+                style="width: 30%; height: 30%;"
+              />
+              <ol>
+                <li>Configure in UI / DB</li>
+                <li>Export to YAML</li>
+                <li>Commit to Git</li>
+                <li>Push / Pull</li>
+                <li>Import back to DB</li>
+              </ol>
+            </div>
+            <aside class="notes">
+              <ul>
+                <li>Works, but over-engineered for most</li>
+                <li>Decide where it originates and be done with it</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h2>Take-away</h2>
+            <p class="bigtext">Decide</p>
+            <aside class="notes">
+              <ul>
+                <li>Doesn't matter which, but pick one</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>What happens at runtime<br />stays at runtime</h2>
+          </section>
+          <section>
+            <img
+              src="assets/app-slotting.svg"
+              alt="Application slots into cluster"
+            />
+            <aside class="notes">
+              <ul>
+                <li>Application separate from env</li>
+                <li>Dev/Stage/Prod, Testing, multi-head, auto-scaling, etc.</li>
+                <li>Assume nothing about your environment!</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3>Dependency inject your environment</h3>
             <ul>
-              <li>Provided by users</li>
-              <li>Frequently ad hoc</li>
-              <li>Lives in DB or filesystem</li>
-              <li>Writeable runtime</li>
+              <li class="fragment">
+                DB credentials <span class="fragment">(Solr, Redis, etc.)</span>
+              </li>
+              <li class="fragment">API keys</li>
+              <li class="fragment">All paths on disk</li>
+              <li class="fragment">Domain names</li>
             </ul>
-          </div>
-        </div>
-        <div class="fragment topspace">Don't mix the filesystems</div>
-        <aside class="notes">
-          <ul>
-            <li>RO FS for security, audit, don't edit prod</li>
-            <li>Split by directory</li>
-            <li>S3 an option, not requirement</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <p class="bigtext">Your application is disposable. Your data is not.</p>
-      </section>
-      <section>
-        <h3>Data flow</h3>
-        <img src="assets/workflow.svg" />
-        <!-- pic of code flowing up, data flowing down -->
-        <p class="fragment">You don't get an in-between option</p>
-      </section>
-      <section>
-        <h3>Take-away</h3>
-        <p>Cleanly separate "Dev provided" and "user provided" files</p>
-      </section>
-    </section>
-    <section>
-      <section>
-        <h3>What is configuration?</h3>
-      </section>
-      <section>
-        <p>Does config come from the developer or the user?</p>
-        <p class="fragment">Git or Database?</p>
-        <aside class="notes">
-          <ul>
-            <li>Not usually an issue for bespoke apps</li>
-            <li>CMSes, often</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h2>Drupal Config Management</h2>
-        <div class="layout-columns layout-centerline topspace">
-          <img src="assets/drupal-8-logo.png" alt="Drupal 8" style="width: 30%; height: 30%;" />
-          <ol>
-            <li>Configure in UI / DB</li>
-            <li>Export to YAML</li>
-            <li>Commit to Git</li>
-            <li>Push / Pull</li>
-            <li>Import back to DB</li>
-          </ol>
-        </div>
-        <aside class="notes">
-          <ul>
-            <li>Works, but over-engineered for most</li>
-            <li>Decide where it originates and be done with it</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h2>Take-away</h2>
-        <p class="bigtext">Decide</p>
-        <aside class="notes">
-          <ul>
-            <li>Doesn't matter which, but pick one</li>
-          </ul>
-        </aside>
-      </section>
-    </section>
-    <section>
-      <section>
-        <h2>What happens at runtime<br />stays at runtime</h2>
-      </section>
-      <section>
-        <img src="assets/app-slotting.svg" alt="Application slots into cluster" />
-        <aside class="notes">
-          <ul>
-            <li>Application separate from env</li>
-            <li>Dev/Stage/Prod, Testing, multi-head, auto-scaling, etc.</li>
-            <li>Assume nothing about your environment!</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3>Dependency inject your environment</h3>
-        <ul>
-          <li class="fragment">DB credentials <span class="fragment">(Solr, Redis, etc.)</span></li>
-          <li class="fragment">API keys</li>
-          <li class="fragment">All paths on disk</li>
-          <li class="fragment">Domain names</li>
-        </ul>
-        <aside class="notes">
-          <ul>
-            <li>Any service, internal or external</li>
-            <li>Ideally you never know credentials and keys</li>
-            <li>Paths relative to root OK, but root is injected</li>
-            <li>Paths and domain names in DB = bad</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h2>Environment variables</h2>
-        <pre class="font--24"><code class="php" data-trim>
+            <aside class="notes">
+              <ul>
+                <li>Any service, internal or external</li>
+                <li>Ideally you never know credentials and keys</li>
+                <li>Paths relative to root OK, but root is injected</li>
+                <li>Paths and domain names in DB = bad</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h2>Environment variables</h2>
+            <pre class="font--24"><code class="php" data-trim>
 getenv('foo');
 
 $_ENV['foo'];
 
 $_ENV['foo']['bar'];
         </code></pre>
-        <p class="topspace fragment">Only ever use <code>getenv()</code></p>
-        <aside class="notes">
-          <ul>
-            <li>All env injected this way</li>
-            <li>Don't always control them exactly</li>
-            <li>Host may have own format, app has own format</li>
-            <li>$_ENV breaks on php internal webserver</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <p class="bigtext">Need glue code</p>
-        <img src="assets/krazy-glue.jpg" data-credit="https://www.flickr.com/photos/chung123/5592465313/" />
-        <aside class="notes">
-          <ul>
-            <li>Translate host env vars to app env vars</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3>Platform.sh</h3>
-        <h3>Symfony 3</h3>
-        <pre class="font--18"><code class="php" data-trim>
+            <p class="topspace fragment">Only ever use <code>getenv()</code></p>
+            <aside class="notes">
+              <ul>
+                <li>All env injected this way</li>
+                <li>Don't always control them exactly</li>
+                <li>Host may have own format, app has own format</li>
+                <li>$_ENV breaks on php internal webserver</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <p class="bigtext">Need glue code</p>
+            <img
+              src="assets/krazy-glue.jpg"
+              data-credit="https://www.flickr.com/photos/chung123/5592465313/"
+            />
+            <aside class="notes">
+              <ul>
+                <li>Translate host env vars to app env vars</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3>Platform.sh</h3>
+            <h3>Symfony 3</h3>
+            <pre class="font--18"><code class="php" data-trim>
 // platform_parameters.php
 // Configure the database.
 if (getenv('PLATFORM_RELATIONSHIPS')) {
@@ -363,13 +410,13 @@ if (getenv('PLATFORM_PROJECT_ENTROPY')) {
     $container->setParameter('kernel.secret', getenv('PLATFORM_PROJECT_ENTROPY'));
 }
         </code></pre>
-      </section>
-      <section>
-        <h3>Platform.sh / Symfony 4</h3>
-        <pre class="font--18"><code class="bash" data-trim>
+          </section>
+          <section>
+            <h3>Platform.sh / Symfony 4</h3>
+            <pre class="font--18"><code class="bash" data-trim>
 composer require platformsh/symfonyflex-bridge
         </code></pre>
-        <pre class="fragment font--18"><code class="php" data-trim>
+            <pre class="fragment font--18"><code class="php" data-trim>
 mapPlatformShEnvironment();
 
 function mapPlatformShEnvironment() : void
@@ -390,13 +437,13 @@ function mapPlatformShEnvironment() : void
 }
 // ...
         </code></pre>
-      </section>
-      <section>
-        <h3>Platform.sh / Laravel</h3>
-        <pre class="font--18"><code class="bash" data-trim>
+          </section>
+          <section>
+            <h3>Platform.sh / Laravel</h3>
+            <pre class="font--18"><code class="bash" data-trim>
 composer require platformsh/laravel-bridge
         </code></pre>
-        <pre class="fragment font--18"><code class="php" data-trim>
+            <pre class="fragment font--18"><code class="php" data-trim>
 mapPlatformShEnvironment();
 
 function mapPlatformShEnvironment() : void
@@ -422,381 +469,451 @@ function mapPlatformShEnvironment() : void
 }
 // ...
         </code></pre>
-        <aside class="notes">
-          <ul>
-            <li>The more you pre-define, the more we can automate</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3>Glue of last resort</h3>
-        <p><code>composer.json</code></p>
-        <pre class="font--18"><code class="json" data-trim>
+            <aside class="notes">
+              <ul>
+                <li>The more you pre-define, the more we can automate</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3>Glue of last resort</h3>
+            <p><code>composer.json</code></p>
+            <pre class="font--18"><code class="json" data-trim>
 {
     "autoload": {
         "files": ["extra-bridge.php"]
     }
 }
         </code></pre>
-        <p class="topspace fragment">Only works if your app reads env vars...</p>
-      </section>
-      <section>
-        <p>Use DotEnv</p>
-        <p class="fragment">(PHP has several... because PHP)</p>
-        <aside class="notes">
-          <ul>
-            <li>Env defaults from config file</li>
-            <li>Use only in dev, read actual env vars in prod</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3>Symfony\HttpFoundation</h3>
-        <p><code>Request::setTrustedHosts()</code></p>
-        <aside class="notes">
-          <ul>
-            <li>Trusted host will vary depending on dev/stage/prod</li>
-            <li>Never put domain in the DB.</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3><code id="constants">Constants?</code></h3>
-        <span class="fragment" data-classer="constants" data-classer-class="struck"></span>
-        <aside class="notes">
-          <ul>
-            <li>Globals</li>
-            <li>Make overriding harder (for local dev)</li>
-            <li>Make testing harder</li>
-            <li>Lookin' at you, WordPress</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3>Take-away</h3>
-        <p>Dependency inject your environment</p>
-      </section>
-    </section>
-    <section>
-      <section>
-        <h3>User-configured connections</h3>
-      </section>
-      <section>
-        <h3>Installers</h3>
-        <ol>
-          <li class="fragment">Ask for DB credentials</li>
-          <li class="fragment">Ask user for basic site info</li>
-          <li class="fragment">Write credentials to config file</li>
-          <li class="fragment">Populate DB</li>
-          <li class="fragment">Write basic site info to config file/DB</li>
-          <li class="fragment">Profit!!!</li>
-        </ol>
-        <p id="no-cloud" class="fragment struck" data-classer="no-cloud" data-classer-class="bigdeal">Cloud</p>
-        <aside class="notes">
-          <ul>
-            <li>Basic installer outline</li>
-            <li>"Write to file" parts: fail!</li>
-            <li>All reasons before: RO disk, dynamic creds, etc.</li>
-            <li>Bad answer: Install elsewhere and upload</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3>Better installers</h3>
-        <ul>
-          <li class="fragment">Pre-include connection glue</li>
-          <li class="fragment">Installer skips pre-populated values</li>
-          <li class="fragment">Do not download from installer</li>
-        </ul>
-        <aside class="notes">
-          <ul>
-            <li>Can download data (translations), not code</li>
-          </ul>
-        </aside>
-      </section>
-    </section>
-    <section>
-      <section>
-        <h3>Avoid lock-in</h3>
-      </section>
-      <section>
-        <blockquote>Always be able to<br />take your business elsewhere.</blockquote>
-        <aside class="notes">
-          <ul>
-            <li>Keep your providers honest</li>
-            <li>Even the ones you like</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <p class="bigtext">Use Free Software</p>
-        <p class="fragment bigtext">Use replaceable services</p>
-        <aside class="notes">
-          <ul>
-            <li>Go out of business, change pricing, change TOS</li>
-            <li>If app cannot run without AWS Lambda, you are 100% dependent on Amazon.</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3>Google has killed...</h3>
-        <ul style="column-count: 3">
-          <li>Reader</li>
-          <li>iGoogle</li>
-          <li>Google Talk</li>
-          <li>Google Health</li>
-          <li>Knol</li>
-          <li>Google Insights</li>
-          <li>Picnik</li>
-          <li>Buzz</li>
-          <li>Aardvark</li>
-          <li>Sidewiki</li>
-          <li>Notebook</li>
-          <li>Dictionary</li>
-          <li>Labs</li>
-          <li>Wave</li>
-          <li>SearchWiki</li>
-          <li>Dodgeball</li>
-          <li>Jaiku</li>
-          <li>Lively</li>
-          <li>Page Creator</li>
-          <li>Zeitgeist</li>
-          <li>Answers</li>
-          <li>Google X</li>
-          <li>Catalog</li>
-          <li>Web Accelerator</li>
-          <li>Video Player</li>
-          <li>Sets</li>
-          <li>SearchMash</li>
-          <li>Writely</li>
-        </ul>
-        <p><small>Source: <a href="http://www.wordstream.com/blog/ws/2013/06/27/discontinued-google-products-services">WordStream</a> (2015)</small></p>
-        <aside class="notes">
-          <ul>
-            <li>Providers have their interests in mind</li>
-            <li>You should have your interests in mind</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <div class="layout-columns">
-          <div>
-            <h3>Safe</h3>
+            <p class="topspace fragment">
+              Only works if your app reads env vars...
+            </p>
+          </section>
+          <section>
+            <p>Use DotEnv</p>
+            <p class="fragment">(PHP has several... because PHP)</p>
+            <aside class="notes">
+              <ul>
+                <li>Env defaults from config file</li>
+                <li>Use only in dev, read actual env vars in prod</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3>Symfony\HttpFoundation</h3>
+            <p><code>Request::setTrustedHosts()</code></p>
+            <aside class="notes">
+              <ul>
+                <li>Trusted host will vary depending on dev/stage/prod</li>
+                <li>Never put domain in the DB.</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3><code id="constants">Constants?</code></h3>
+            <span
+              class="fragment"
+              data-classer="constants"
+              data-classer-class="struck"
+            ></span>
+            <aside class="notes">
+              <ul>
+                <li>Globals</li>
+                <li>Make overriding harder (for local dev)</li>
+                <li>Make testing harder</li>
+                <li>Lookin' at you, WordPress</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3>Take-away</h3>
+            <p>Dependency inject your environment</p>
+          </section>
+        </section>
+        <section>
+          <section><h3>User-configured connections</h3></section>
+          <section>
+            <h3>Installers</h3>
+            <ol>
+              <li class="fragment">Ask for DB credentials</li>
+              <li class="fragment">Ask user for basic site info</li>
+              <li class="fragment">Write credentials to config file</li>
+              <li class="fragment">Populate DB</li>
+              <li class="fragment">Write basic site info to config file/DB</li>
+              <li class="fragment">Profit!!!</li>
+            </ol>
+            <p
+              id="no-cloud"
+              class="fragment struck"
+              data-classer="no-cloud"
+              data-classer-class="bigdeal"
+            >
+              Cloud
+            </p>
+            <aside class="notes">
+              <ul>
+                <li>Basic installer outline</li>
+                <li>"Write to file" parts: fail!</li>
+                <li>All reasons before: RO disk, dynamic creds, etc.</li>
+                <li>Bad answer: Install elsewhere and upload</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3>Better installers</h3>
             <ul>
-              <li class="fragment">MySQL/MariaDB</li>
-              <li class="fragment">PostgreSQL</li>
-              <li class="fragment">MongoDB</li>
-              <li class="fragment">RabbitMQ</li>
-              <li class="fragment">Solr/Elasticsearch</li>
-              <li class="fragment">InfluxDB</li>
+              <li class="fragment">Pre-include connection glue</li>
+              <li class="fragment">Installer skips pre-populated values</li>
+              <li class="fragment">Do not download from installer</li>
             </ul>
-          </div>
-          <div class="fragment">
-            <h3>Unsafe</h3>
+            <aside class="notes">
+              <ul>
+                <li>Can download data (translations), not code</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+        <section>
+          <section><h3>Avoid lock-in</h3></section>
+          <section>
+            <blockquote>
+              Always be able to<br />take your business elsewhere.
+            </blockquote>
+            <aside class="notes">
+              <ul>
+                <li>Keep your providers honest</li>
+                <li>Even the ones you like</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <p class="bigtext">Use Free Software</p>
+            <p class="fragment bigtext">Use replaceable services</p>
+            <aside class="notes">
+              <ul>
+                <li>Go out of business, change pricing, change TOS</li>
+                <li>
+                  If app cannot run without AWS Lambda, you are 100% dependent
+                  on Amazon.
+                </li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3>Google has killed...</h3>
+            <ul style="column-count: 3">
+              <li>Reader</li>
+              <li>iGoogle</li>
+              <li>Google Talk</li>
+              <li>Google Health</li>
+              <li>Knol</li>
+              <li>Google Insights</li>
+              <li>Picnik</li>
+              <li>Buzz</li>
+              <li>Aardvark</li>
+              <li>Sidewiki</li>
+              <li>Notebook</li>
+              <li>Dictionary</li>
+              <li>Labs</li>
+              <li>Wave</li>
+              <li>SearchWiki</li>
+              <li>Dodgeball</li>
+              <li>Jaiku</li>
+              <li>Lively</li>
+              <li>Page Creator</li>
+              <li>Zeitgeist</li>
+              <li>Answers</li>
+              <li>Google X</li>
+              <li>Catalog</li>
+              <li>Web Accelerator</li>
+              <li>Video Player</li>
+              <li>Sets</li>
+              <li>SearchMash</li>
+              <li>Writely</li>
+            </ul>
+            <p>
+              <small
+                >Source:
+                <a
+                  href="http://www.wordstream.com/blog/ws/2013/06/27/discontinued-google-products-services"
+                  >WordStream</a
+                >
+                (2015)</small
+              >
+            </p>
+            <aside class="notes">
+              <ul>
+                <li>Providers have their interests in mind</li>
+                <li>You should have your interests in mind</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <div class="layout-columns">
+              <div>
+                <h3>Safe</h3>
+                <ul>
+                  <li class="fragment">MySQL/MariaDB</li>
+                  <li class="fragment">PostgreSQL</li>
+                  <li class="fragment">MongoDB</li>
+                  <li class="fragment">RabbitMQ</li>
+                  <li class="fragment">Solr/Elasticsearch</li>
+                  <li class="fragment">InfluxDB</li>
+                </ul>
+              </div>
+              <div class="fragment">
+                <h3>Unsafe</h3>
+                <ul>
+                  <li class="fragment">Amazon RDS</li>
+                  <li class="fragment">Amazon DynamoDB</li>
+                  <li class="fragment">Azure Cosmos DB</li>
+                  <li class="fragment">Anything you can't replace in a day</li>
+                </ul>
+              </div>
+            </div>
+            <aside class="notes">
+              <ul>
+                <li>RDS: Proprietary relational DB</li>
+                <li>DynamoDB, Cosmos: NoSQL Mongo clone</li>
+                <li>Not anti-service, just anti-dependency</li>
+                <li>
+                  If dependent on 3rd party platform, dependent on 3rd party
+                </li>
+                <li>Outsourcing problem, not cloud problem</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Microservices: Threat or menace</h3>
+            <aside class="notes">
+              <ul>
+                <li>Clouds enable microservices, right...?</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3>What is a microservice?</h3>
+            <div>
+              <blockquote>
+                There is no industry consensus yet regarding the properties of
+                microservices, and an official definition is missing as well.
+              </blockquote>
+              <p>
+                &mdash;<a href="https://en.wikipedia.org/wiki/Microservices"
+                  >Wikipedia</a
+                >
+              </p>
+            </div>
+            <aside class="notes">
+              <ul>
+                <li>Thanks for nothing...</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h3>Properties of microservice design</h3>
             <ul>
-              <li class="fragment">Amazon RDS</li>
-              <li class="fragment">Amazon DynamoDB</li>
-              <li class="fragment">Azure Cosmos DB</li>
-              <li class="fragment">Anything you can't replace in a day</li>
+              <li class="fragment">Single-purpose components</li>
+              <li class="fragment">Dumb pipes (HTTP, IPC, etc.)</li>
+              <li class="fragment">Separate teams</li>
+              <li class="fragment">Independent releases</li>
             </ul>
-          </div>
+            <p class="fragment">
+              (Sources: Wikipedia,
+              <a href="https://martinfowler.com/articles/microservices.html"
+                >Martin Fowler</a
+              >)
+            </p>
+          </section>
+          <section>
+            <p>
+              <q
+                >Every microservice treats every other microservice as a
+                separate 3rd party that may as well be a different company.</q
+              >
+            </p>
+          </section>
+          <section>
+            <h3>Benefits</h3>
+            <ul>
+              <li class="fragment">Different tools/languages</li>
+              <li class="fragment">Small, focused, interdisiplinary teams</li>
+              <li class="fragment">Strong separation of concerns</li>
+              <li class="fragment">Scale/evolve/replace separately</li>
+            </ul>
+            <aside class="notes">
+              <ul>
+                <li>Most of these revolve around different teams</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <blockquote>
+              Any organization that designs a system (defined broadly) will
+              produce a design whose structure is a copy of the organization's
+              communication structure.
+            </blockquote>
+            <p>
+              &mdash;<a href="http://www.melconway.com/Home/Conways_Law.html"
+                >Conway's Law</a
+              >
+            </p>
+          </section>
+          <section>
+            <h3>Drawbacks</h3>
+            <ul>
+              <li class="fragment">Network latency</li>
+              <li class="fragment">Network points of failure (plural)</li>
+              <li class="fragment">Transitioning code is 10x harder</li>
+              <li class="fragment">API versioning</li>
+              <li class="fragment">More staff needed</li>
+              <li class="fragment">PHP startup time</li>
+            </ul>
+          </section>
+          <section>
+            <blockquote>
+              "If one of your microservices going down means the others don't
+              work, you don't have a microservice; you have a
+              <em>distributed monolith</em>."
+            </blockquote>
+            <p>&mdash;A few dozen people</p>
+          </section>
+          <section>
+            <p><q>So if microservices aren't for me, what is?</q></p>
+            <h3 class="fragment">Clustered applications</h3>
+          </section>
+          <section>
+            <h3>Clustered applications</h3>
+            <ul>
+              <li class="fragment">Single team</li>
+              <li class="fragment">Disrete components</li>
+              <li class="fragment">Deploys as once</li>
+              <li class="fragment">Usually one language (not required)</li>
+              <li class="fragment">May share datastores</li>
+            </ul>
+            <p class="fragment">You've probably already done this</p>
+          </section>
+          <section>
+            <h3>Clustered applications</h3>
+            <p class="bigtext fragment">Cron jobs</p>
+            <p class="bigtext fragment">"Admin" application</p>
+            <p class="bigtext fragment">Queue workers</p>
+            <p class="bigtext fragment">API app</p>
+            <aside class="notes">
+              <ul>
+                <li>Could be one code base or multiple</li>
+                <li>One language or multiple</li>
+                <li>Separate containers, scale independently</li>
+                <li>What do these all have in common?</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <p class="bigtext">All asynchronous</p>
+            <aside class="notes">
+              <ul>
+                <li>Each request only touches one service</li>
+                <li>Only do the work needed to respond</li>
+                <li>PHP is well-suited to this model</li>
+                <li>Still more complex than monolith!</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
+
+        <div style="display: none">
+          Microservices * More points of failure * Split by team * Split by
+          async * "If the request can't complete if the service goes down, it's
+          not a microservice." * If they deploy together are they microservices?
+          Maybe. (Workers vs. separate apps.)
         </div>
-        <aside class="notes">
-          <ul>
-            <li>RDS: Proprietary relational DB</li>
-            <li>DynamoDB, Cosmos: NoSQL Mongo clone</li>
-            <li>Not anti-service, just anti-dependency</li>
-            <li>If dependent on 3rd party platform, dependent on 3rd party</li>
-            <li>Outsourcing problem, not cloud problem</li>
-          </ul>
-        </aside>
-      </section>
-    </section>
 
-    <section>
-      <section>
-        <h3>Microservices: Threat or menace</h3>
-        <aside class="notes">
-          <ul>
-            <li>Clouds enable microservices, right...?</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3>What is a microservice?</h3>
-        <div>
-          <blockquote>
-            There is no industry consensus yet regarding the properties of microservices, and an
-            official definition is missing as well.
-          </blockquote>
-          <p>&mdash;<a href="https://en.wikipedia.org/wiki/Microservices">Wikipedia</a></p>
-        </div>
-        <aside class="notes">
-          <ul>
-            <li>Thanks for nothing...</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <h3>Properties of microservice design</h3>
-        <ul>
-          <li class="fragment">Single-purpose components</li>
-          <li class="fragment">Dumb pipes (HTTP, IPC, etc.)</li>
-          <li class="fragment">Separate teams</li>
-          <li class="fragment">Independent releases</li>
-        </ul>
-        <p class="fragment">(Sources: Wikipedia, <a href="https://martinfowler.com/articles/microservices.html">Martin Fowler</a>)</p>
-      </section>
-      <section>
-        <p><q>Every microservice treats every other microservice as a separate 3rd party
-          that may as well be a different company.</q></p>
-      </section>
-      <section>
-        <h3>Benefits</h3>
-        <ul>
-          <li class="fragment">Different tools/languages</li>
-          <li class="fragment">Small, focused, interdisiplinary teams</li>
-          <li class="fragment">Strong separation of concerns</li>
-          <li class="fragment">Scale/evolve/replace separately</li>
-        </ul>
-        <aside class="notes">
-          <ul>
-            <li>Most of these revolve around different teams</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <blockquote>Any organization that designs a system (defined broadly) will produce
-          a design whose structure is a copy of the organization's communication structure.</blockquote>
-        <p>&mdash;<a href="http://www.melconway.com/Home/Conways_Law.html">Conway's Law</a></p>
-      </section>
-      <section>
-        <h3>Drawbacks</h3>
-        <ul>
-          <li class="fragment">Network latency</li>
-          <li class="fragment">Network points of failure (plural)</li>
-          <li class="fragment">Transitioning code is 10x harder</li>
-          <li class="fragment">API versioning</li>
-          <li class="fragment">More staff needed</li>
-          <li class="fragment">PHP startup time</li>
-        </ul>
-      </section>
-      <section>
-        <blockquote>"If one of your microservices going down means the others don't work,
-          you don't have a microservice; you have a <em>distributed monolith</em>."</blockquote>
-        <p>&mdash;A few dozen people</p>
-      </section>
-      <section>
-        <p><q>So if microservices aren't for me, what is?</q></p>
-        <h3 class="fragment">Clustered applications</h3>
-      </section>
-      <section>
-        <h3>Clustered applications</h3>
-        <ul>
-          <li class="fragment">Single team</li>
-          <li class="fragment">Disrete components</li>
-          <li class="fragment">Deploys as once</li>
-          <li class="fragment">Usually one language (not required)</li>
-          <li class="fragment">May share datastores</li>
-        </ul>
-        <p class="fragment">You've probably already done this</p>
-      </section>
-      <section>
-        <h3>Clustered applications</h3>
-        <p class="bigtext fragment">Cron jobs</p>
-        <p class="bigtext fragment">"Admin" application</p>
-        <p class="bigtext fragment">Queue workers</p>
-        <p class="bigtext fragment">API app</p>
-        <aside class="notes">
-          <ul>
-            <li>Could be one code base or multiple</li>
-            <li>One language or multiple</li>
-            <li>Separate containers, scale independently</li>
-            <li>What do these all have in common?</li>
-          </ul>
-        </aside>
-      </section>
-      <section>
-        <p class="bigtext">All asynchronous</p>
-        <aside class="notes">
-          <ul>
-            <li>Each request only touches one service</li>
-            <li>Only do the work needed to respond</li>
-            <li>PHP is well-suited to this model</li>
-            <li>Still more complex than monolith!</li>
-          </ul>
-        </aside>
-      </section>
-    </section>
+        <section>
+          <section>
+            <h2>To summarize...</h2>
+            <blockquote class="fragment">
+              Remember what they say when you assume
+            </blockquote>
+            <aside class="notes">
+              <p>Don't assume</p>
+              <ul>
+                <li>environment</li>
+                <li>number of webheads</li>
+                <li>Connections</li>
+                <li>Domain</li>
+                <li>writeability</li>
+                <li>That you are big enough to need microservices</li>
+              </ul>
+            </aside>
+          </section>
+        </section>
 
-    <div style="display: none">
-      Microservices
-
-      * More points of failure
-      * Split by team
-      * Split by async
-      * "If the request can't complete if the service goes down, it's not a microservice."
-      * If they deploy together are they microservices?  Maybe.  (Workers vs. separate apps.)
-
+        <section id="final">
+          <h2>Larry Garfield</h2>
+          <h2><a href="http://twitter.com/Crell">@Crell</a></h2>
+          <p>
+            Director of Developer Experience
+            <a href="http://www.platform.sh/">Platform.sh</a>
+          </p>
+          <p>Continuous Deployment Cloud Hosting</p>
+          <p>
+            Stalk us at <a href="http://twitter.com/Platformsh">@PlatformSH</a>
+          </p>
+        </section>
+      </div>
     </div>
 
-    <section>
-      <section>
-        <h2>To summarize...</h2>
-        <blockquote class="fragment">Remember what they say when you assume</blockquote>
-        <aside class="notes">
-          <p>Don't assume</p>
-          <ul>
-            <li>environment</li>
-            <li>number of webheads</li>
-            <li>Connections</li>
-            <li>Domain</li>
-            <li>writeability</li>
-            <li>That you are big enough to need microservices</li>
-          </ul>
-        </aside>
-      </section>
-    </section>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
 
-    <section id="final">
-      <h2>Larry Garfield</h2>
-      <h2><a href="http://twitter.com/Crell">@Crell</a></h2>
-      <p>Director of Developer Experience <a href="http://www.platform.sh/">Platform.sh</a></p>
-      <p>Continuous Deployment Cloud Hosting</p>
-      <p>Stalk us at <a href="http://twitter.com/Platformsh">@PlatformSH</a></p>
-    </section>
+    <script>
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
 
-  </div>
+        transition: "slide", // none/fade/slide/convex/concave/zoom
 
-</div>
-
-<script src="lib/js/head.min.js"></script>
-<script src="js/reveal.js"></script>
-
-<script>
-
-  // Full list of configuration options available at:
-  // https://github.com/hakimel/reveal.js#configuration
-  Reveal.initialize({
-    controls: true,
-    progress: true,
-    history: true,
-    center: true,
-
-    transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-    // Optional reveal.js plugins
-    dependencies: [
-      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-      { src: 'plugin/zoom-js/zoom.js', async: true },
-      { src: 'plugin/notes/notes.js', async: true }
-    ]
-  });
-
-</script>
-
-</body>
+        // Optional reveal.js plugins
+        dependencies: [
+          {
+            src: "lib/js/classList.js",
+            condition: function() {
+              return !document.body.classList;
+            }
+          },
+          {
+            src: "plugin/markdown/marked.js",
+            condition: function() {
+              return !!document.querySelector("[data-markdown]");
+            }
+          },
+          {
+            src: "plugin/markdown/markdown.js",
+            condition: function() {
+              return !!document.querySelector("[data-markdown]");
+            }
+          },
+          {
+            src: "plugin/highlight/highlight.js",
+            async: true,
+            condition: function() {
+              return !!document.querySelector("pre code");
+            },
+            callback: function() {
+              hljs.initHighlightingOnLoad();
+            }
+          },
+          { src: "plugin/zoom-js/zoom.js", async: true },
+          { src: "plugin/notes/notes.js", async: true }
+        ]
+      });
+    </script>
+  </body>
 </html>
